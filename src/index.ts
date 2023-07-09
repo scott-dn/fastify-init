@@ -1,11 +1,9 @@
-import Fastify from 'fastify';
+import { build } from './app';
 
-const fastify = Fastify({
+export const app = build({
   logger: true
 });
 
-fastify.get('/', () => ({ hello: 'world' }));
-
-fastify.listen({ port: 5000 }, err => {
+app.listen({ port: 5000 }, err => {
   if (err) throw err;
 });
