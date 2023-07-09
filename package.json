@@ -9,7 +9,7 @@
     "node": ">=18.14.0 <18.14.9"
   },
   "scripts": {
-    "start": "node dist",
+    "start": "node dist/src",
     "start:watch": "tsx watch src",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
