@@ -4,12 +4,8 @@ const fastify = Fastify({
   logger: true
 });
 
-fastify.get('/', async (_request, reply) => {
-  reply.type('application/json').code(200);
-  return { hello: 'world' };
-});
+fastify.get('/', () => ({ hello: 'world' }));
 
-fastify.listen({ port: 5000 }, (err, _address) => {
+fastify.listen({ port: 5000 }, err => {
   if (err) throw err;
-  // Server is now listening on ${address}
 });

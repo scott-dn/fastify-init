@@ -9,7 +9,6 @@
     "@typescript-eslint",
     "import",
     "promise",
-    "prettier",
     "unicorn",
     "sonarjs",
     "jest"
