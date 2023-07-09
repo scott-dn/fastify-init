@@ -1,6 +1,6 @@
 import { build } from './app';
 
-export const app = build({
+const app = build({
   logger: true
 });
 

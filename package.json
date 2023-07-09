@@ -9,7 +9,6 @@
     "node": ">=18.14.0 <18.14.9"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
     "start": "node dist",
     "start:watch": "tsx watch src",
     "format:check": "prettier --check .",
@@ -17,6 +16,7 @@
     "lint:check": "eslint .",
     "lint": "eslint . --fix",
     "test": "jest",
+    "build": "tsc -p tsconfig.build.json",
     "postinstall": "husky install"
   },
   "devDependencies": {
