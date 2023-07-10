@@ -1,6 +1,6 @@
-import { build } from './app';
+import { build } from '../../app';
 
-describe('requests the "/" route', () => {
+describe('Test hello controller', () => {
   it('returns a 200', async () => {
     const app = await build({});
 
