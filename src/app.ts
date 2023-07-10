@@ -1,9 +1,14 @@
 import fastify, { FastifyServerOptions } from 'fastify';
 
-export const build = (opts: FastifyServerOptions) => {
+import { registerRoutes } from './routes';
+import { registerSwagger } from './swagger';
+
+export const build = async (opts: FastifyServerOptions) => {
   const app = fastify(opts);
 
-  app.get('/', () => ({ hello: 'world' }));
+  await registerSwagger(app);
+
+  registerRoutes(app);
 
   return app;
 };

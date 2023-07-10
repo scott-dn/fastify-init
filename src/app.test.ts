@@ -2,7 +2,7 @@ import { build } from './app';
 
 describe('requests the "/" route', () => {
   it('returns a 200', async () => {
-    const app = build({});
+    const app = await build({});
 
     const response = await app.inject({
       method: 'GET',

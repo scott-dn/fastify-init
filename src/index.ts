@@ -1,9 +1,15 @@
 import { build } from './app';
 
-const app = build({
-  logger: true
-});
+const bootstrap = async () => {
+  const app = await build({
+    logger: true
+  });
 
-app.listen({ port: 5000 }, err => {
-  if (err) throw err;
+  app.listen({ port: 5000 }, err => {
+    if (err) throw err;
+  });
+};
+
+bootstrap().catch(error => {
+  console.error(error);
 });
