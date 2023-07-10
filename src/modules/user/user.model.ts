@@ -7,7 +7,9 @@ const User = Type.Object({
 
 export const UserSchema = {
   params: Type.Object({
-    id: Type.String()
+    id: Type.String({
+      description: 'user id'
+    })
   }),
   body: User,
   response: {

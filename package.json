@@ -9,7 +9,7 @@
     "node": ">=18.14.0 <18.14.9"
   },
   "scripts": {
-    "start": "node dist/src",
+    "start": "NODE_PATH=dist NODE_ENV=production node dist/src",
     "start:watch": "tsx watch src",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
@@ -25,6 +25,7 @@
     "@types/jest": "^29.5.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
+    "env-schema": "^5.2.0",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",

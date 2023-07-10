@@ -1,7 +1,8 @@
 import { FastifyInstance } from 'fastify';
 
+import { Req } from 'src/commons/fastify';
+
 import { UserSchema } from './user.model';
-import { Req } from '../../commons/fastify';
 
 export const registerUserController = (app: FastifyInstance) => {
   app.put(
@@ -9,7 +10,7 @@ export const registerUserController = (app: FastifyInstance) => {
     {
       schema: {
         ...UserSchema,
-        tags: ['routes']
+        tags: ['users']
       }
     },
     ({ log, body: { name, mail }, params }: Req<typeof UserSchema>, reply) => {

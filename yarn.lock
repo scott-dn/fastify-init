@@ -2354,6 +2354,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv-expand@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "dotenv-expand@npm:9.0.0"
+  checksum: 76f669b87da73d6980d1235cb18e9ccd94b294927784a0c06db5e9e98d1090b0605e75ade70880f0cd812af7f61e41367a80feea223d23fd3bd0b82f3409b9ed
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.0.0":
+  version: 16.3.1
+  resolution: "dotenv@npm:16.3.1"
+  checksum: 15d75e7279018f4bafd0ee9706593dd14455ddb71b3bcba9c52574460b7ccaf67d5cf8b2c08a5af1a9da6db36c956a04a1192b101ee102a3e0cf8817bbcf3dfd
+  languageName: node
+  linkType: hard
+
 "eastasianwidth@npm:^0.2.0":
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
@@ -2421,6 +2435,17 @@ __metadata:
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
   checksum: 65b5df55a8bab92229ab2b40dad3b387fad24613263d103a97f91c9fe43ceb21965cd3392b1ccb5d77088021e525c4e0481adb309625d0cb94ade1d1fb8dc17e
+  languageName: node
+  linkType: hard
+
+"env-schema@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "env-schema@npm:5.2.0"
+  dependencies:
+    ajv: ^8.0.0
+    dotenv: ^16.0.0
+    dotenv-expand: ^9.0.0
+  checksum: 739f7bd4a2a4d5586535afa552ba1eabc1e37923c6390ae3b71368b46e2c183227317256ac4d6b2bc18fe7ac740280ee273c3c0e1ebd951c6d2a06a5960c36fe
   languageName: node
   linkType: hard
 
@@ -3087,6 +3112,7 @@ __metadata:
     "@types/jest": ^29.5.2
     "@typescript-eslint/eslint-plugin": ^5.61.0
     "@typescript-eslint/parser": ^5.61.0
+    env-schema: ^5.2.0
     eslint: ^8.44.0
     eslint-config-prettier: ^8.8.0
     eslint-import-resolver-typescript: ^3.5.5

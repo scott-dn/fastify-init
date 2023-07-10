@@ -12,5 +12,6 @@
       "statements": 60
     }
   },
-  "coverageReporters": ["clover", "json", "lcov", "text"]
+  "coverageReporters": ["clover", "json", "lcov", "text"],
+  "moduleDirectories": ["node_modules", "<rootDir>"]
 }

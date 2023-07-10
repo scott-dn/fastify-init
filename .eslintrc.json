@@ -87,7 +87,8 @@
           "caseInsensitive": false
         }
       }
-    ]
+    ],
+    "import/no-relative-parent-imports": ["error", { "ignore": ["src"] }]
   },
   "overrides": [
     {

@@ -1,9 +1,16 @@
-import { build } from '../../app';
+import fastify from 'fastify';
+
+import { registerRoutes } from 'src/routes';
 
 describe('Test hello controller', () => {
-  it('returns a 200', async () => {
-    const app = await build({});
+  const app = fastify();
 
+  beforeAll(async () => {
+    registerRoutes(app);
+    await app.ready();
+  });
+
+  it('returns a 200', async () => {
     const response = await app.inject({
       method: 'GET',
       url: '/'
