@@ -1,7 +1,7 @@
 import { Static, Type } from '@sinclair/typebox';
 import envSchema from 'env-schema';
 
-const schema = Type.Object({
+const ConfigSchema = Type.Object({
   NODE_ENV: Type.Union(
     [Type.Literal('development'), Type.Literal('production')],
     {
@@ -11,9 +11,9 @@ const schema = Type.Object({
   PORT: Type.Number({ default: 5000 })
 });
 
-export type Config = Static<typeof schema>;
+export type Config = Static<typeof ConfigSchema>;
 
 export const config = envSchema<Config>({
-  schema: schema,
+  schema: ConfigSchema,
   dotenv: true // load .env
 });

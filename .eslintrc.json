@@ -48,6 +48,11 @@
     // arrow style functions
     "arrow-parens": ["error", "as-needed"],
     "arrow-body-style": ["error", "as-needed"],
+    "no-restricted-syntax": [
+      "error",
+      "FunctionExpression",
+      "FunctionDeclaration"
+    ],
 
     // line
     "no-multiple-empty-lines": [

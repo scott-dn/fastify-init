@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { PinoLoggerOptions } from 'fastify/types/logger';
 
-import { Config } from './config';
+import { Config } from './commons/config';
 
 export const getLogger = (config: Config): boolean | PinoLoggerOptions =>
   config.NODE_ENV === 'production'

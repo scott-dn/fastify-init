@@ -1,6 +1,7 @@
 import fastify, { FastifyInstance } from 'fastify';
 
-import { config } from './config';
+import { config } from './commons/config';
+import { registerErrorHandlers } from './error-handler';
 import { getLogger } from './logger';
 import { registerSwagger } from './plugins/swagger';
 import { registerRoutes } from './routes';
@@ -37,6 +38,7 @@ const bootstrap = async () => {
   }
 
   registerRoutes(app);
+  registerErrorHandlers(app);
 
   app.log.info(config, 'Starting server with config');
 
