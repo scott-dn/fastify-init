@@ -1,7 +1,7 @@
-import fastify from 'fastify';
-import { PinoLoggerOptions } from 'fastify/types/logger';
+import fastify, { FastifyInstance } from 'fastify';
 
 import { config } from './config';
+import { getLogger } from './logger';
 import { registerSwagger } from './plugins/swagger';
 import { registerRoutes } from './routes';
 
@@ -12,35 +12,36 @@ import { registerRoutes } from './routes';
 // TODO: heathcheck
 // TODO: graceful shutdown
 
-const getLogger = (): boolean | PinoLoggerOptions =>
-  config.NODE_ENV === 'production'
-    ? true
-    : {
-        level: 'debug',
-        transport: {
-          target: 'pino-pretty',
-          options: {
-            translateTime: 'HH:MM:ss Z',
-            ignore: 'pid,hostname'
-          }
-        }
-      };
+const setupDevelopMode = async (app: FastifyInstance) => {
+  // enable swagger
+  await registerSwagger(app);
+
+  // log request body
+  app.addHook('preHandler', (req, _, done) => {
+    if (req.body) {
+      req.log.info({ body: req.body }, 'request body');
+    }
+    done();
+  });
+};
 
 const bootstrap = async () => {
   const opts = {
-    logger: getLogger()
+    logger: getLogger(config)
   };
 
   const app = fastify(opts);
 
-  if (config.NODE_ENV === 'local') await registerSwagger(app);
+  if (config.NODE_ENV === 'development') {
+    await setupDevelopMode(app);
+  }
 
   registerRoutes(app);
 
   app.log.info(config, 'Starting server with config');
 
-  app.listen({ port: config.PORT }, err => {
-    if (err) throw err;
+  app.listen({ port: config.PORT }, e => {
+    if (e) throw e;
   });
 };
 

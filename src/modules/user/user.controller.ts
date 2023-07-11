@@ -15,8 +15,7 @@ export const registerUserController = (app: FastifyInstance) => {
     },
     ({ log, body: { name, mail }, params }: Req<typeof UserSchema>, reply) => {
       log.debug({ params: params.id }, 'Got id name');
-      log.debug({ name }, 'Got body name');
-      log.debug(mail, 'Got body mail');
+      log.debug({ name, mail }, 'Got body');
       return reply.send({ name, mail });
     }
   );
