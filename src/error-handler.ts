@@ -10,33 +10,33 @@ import {
 const DefaultSchema = ResponseSchema();
 
 export const registerErrorHandlers = (app: FastifyInstance) => {
-  app.setErrorHandler((error, request, reply: Res<typeof DefaultSchema>) => {
-    if (error.statusCode === 400 || error.validation) {
-      return reply.status(400).send(error);
+  app.setErrorHandler((e, req, reply: Res<typeof DefaultSchema>) => {
+    if (e.statusCode === 400 || e.validation) {
+      return reply.status(400).send(e);
     }
 
     app.log.error(
       {
         request: {
-          req_id: request.id as unknown,
-          path: request.routerPath,
-          headers: request.headers,
-          body: request.body,
-          parameters: request.params,
-          query: request.query,
-          url: request.url,
-          originalUrl: request.originalUrl,
-          method: request.method,
-          protocol: request.protocol,
-          hostname: request.hostname
+          req_id: req.id as unknown,
+          path: req.routerPath,
+          headers: req.headers,
+          body: req.body,
+          parameters: req.params,
+          query: req.query,
+          url: req.url,
+          originalUrl: req.originalUrl,
+          method: req.method,
+          protocol: req.protocol,
+          hostname: req.hostname
         },
         error: {
-          message: error.message,
-          stack: error.stack,
-          name: error.name,
-          cause: error.cause,
-          code: error.code,
-          statusCode: error.statusCode
+          message: e.message,
+          stack: e.stack,
+          name: e.name,
+          cause: e.cause,
+          code: e.code,
+          statusCode: e.statusCode
         }
       },
       'Unhandled Error'

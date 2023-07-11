@@ -24,17 +24,17 @@ export const getLogger = (config: Config): boolean | PinoLoggerOptions =>
             headers:
               typeof reply.getHeaders === 'function' ? reply.getHeaders() : {}
           }),
-          req: (request: FastifyRequest) => ({
-            method: request.method,
-            url: request.url,
-            hostname: request.hostname,
-            remoteAddress: request.ip,
-            remotePort: request.socket.remotePort,
+          req: (req: FastifyRequest) => ({
+            method: req.method,
+            url: req.url,
+            hostname: req.hostname,
+            remoteAddress: req.ip,
+            remotePort: req.socket.remotePort,
             // extra info will be logged in the `production` due to performance cost
-            path: request.routerPath,
-            parameters: request.params,
-            headers: request.headers,
-            body: request.body
+            path: req.routerPath,
+            parameters: req.params,
+            headers: req.headers,
+            body: req.body
           })
         }
       };

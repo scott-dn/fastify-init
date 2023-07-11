@@ -1,12 +1,12 @@
 import fastify from 'fastify';
 
-import { registerRoutes } from 'src/routes';
+import { registerAppRoutes } from 'src/routes';
 
 describe('Test hello controller', () => {
   const app = fastify();
 
   beforeAll(async () => {
-    registerRoutes(app);
+    registerAppRoutes(app);
     await app.ready();
   });
 

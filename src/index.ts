@@ -1,30 +1,18 @@
-import fastify, { FastifyInstance } from 'fastify';
+import fastify from 'fastify';
 
 import { config } from './commons/config';
+import { setupDevelopMode } from './dev-mode';
 import { registerErrorHandlers } from './error-handler';
+import { registerHeathcheck } from './healthcheck';
 import { getLogger } from './logger';
-import { registerSwagger } from './plugins/swagger';
-import { registerRoutes } from './routes';
+import { registerAppRoutes } from './routes';
+import { handleShutdownGracefully } from './shutsown-gracefully';
 
-// TODO: validation
+// TODO: request-id
+// TODO: prod build
 // TODO: ORM
 // TODO: migration
 // TODO: authentication
-// TODO: heathcheck
-// TODO: graceful shutdown
-
-const setupDevelopMode = async (app: FastifyInstance) => {
-  // enable swagger
-  await registerSwagger(app);
-
-  // log request body
-  app.addHook('preHandler', (req, _, done) => {
-    if (req.body) {
-      req.log.info({ body: req.body }, 'request body');
-    }
-    done();
-  });
-};
 
 const bootstrap = async () => {
   const opts = {
@@ -37,7 +25,8 @@ const bootstrap = async () => {
     await setupDevelopMode(app);
   }
 
-  registerRoutes(app);
+  registerHeathcheck(app);
+  registerAppRoutes(app);
   registerErrorHandlers(app);
 
   app.log.info(config, 'Starting server with config');
@@ -45,8 +34,12 @@ const bootstrap = async () => {
   app.listen({ port: config.PORT }, e => {
     if (e) throw e;
   });
+
+  return app;
 };
 
-bootstrap().catch(error => {
-  throw error;
-});
+bootstrap()
+  .then(handleShutdownGracefully)
+  .catch(error => {
+    throw error;
+  });
