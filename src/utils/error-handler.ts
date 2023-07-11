@@ -1,11 +1,11 @@
 import { FastifyInstance } from 'fastify';
 
-import { Res } from './commons/fastify';
-import { ResponseSchema } from './commons/response';
+import { Res } from 'src/commons/fastify';
+import { ResponseSchema } from 'src/commons/response';
 import {
   INTERNAL_SERVER_ERROR_CODE,
   INTERNAL_SERVER_ERROR_MSG
-} from './contants/error-code';
+} from 'src/contants/error-code';
 
 const DefaultSchema = ResponseSchema();
 

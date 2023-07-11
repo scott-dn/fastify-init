@@ -22,6 +22,7 @@
   "devDependencies": {
     "@fastify/swagger": "^8.8.0",
     "@fastify/swagger-ui": "^1.9.2",
+    "@fastify/type-provider-typebox": "^3.2.0",
     "@types/jest": "^29.5.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
@@ -40,11 +41,11 @@
     "prettier": "^3.0.0",
     "ts-jest": "^29.1.1",
     "tsx": "^3.12.7",
-    "@fastify/type-provider-typebox": "^3.2.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.29.4",
-    "fastify": "^4.19.2"
+    "fastify": "^4.19.2",
+    "hyperid": "^3.1.1"
   }
 }

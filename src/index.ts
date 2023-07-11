@@ -1,14 +1,16 @@
 import fastify from 'fastify';
+import hyperid from 'hyperid';
 
 import { config } from './commons/config';
-import { setupDevelopMode } from './dev-mode';
-import { registerErrorHandlers } from './error-handler';
-import { registerHeathcheck } from './healthcheck';
-import { getLogger } from './logger';
+import { REQUEST_ID } from './contants/error-code';
 import { registerAppRoutes } from './routes';
-import { handleShutdownGracefully } from './shutsown-gracefully';
+import { setupDevelopMode } from './utils/dev-mode';
+import { registerErrorHandlers } from './utils/error-handler';
+import { registerHeathcheck } from './utils/healthcheck';
+import { getLogger } from './utils/logger';
+import { registerRequestId } from './utils/request-id';
+import { handleShutdownGracefully } from './utils/shutsown-gracefully';
 
-// TODO: request-id
 // TODO: prod build
 // TODO: ORM
 // TODO: migration
@@ -16,7 +18,12 @@ import { handleShutdownGracefully } from './shutsown-gracefully';
 
 const bootstrap = async () => {
   const opts = {
-    logger: getLogger(config)
+    logger: getLogger(config),
+    ignoreTrailingSlash: true,
+    requestTimeout: 1000 * 30, // 30s
+    requestIdHeader: REQUEST_ID,
+    requestIdLogLabel: REQUEST_ID,
+    genReqId: () => hyperid().uuid
   };
 
   const app = fastify(opts);
@@ -25,6 +32,7 @@ const bootstrap = async () => {
     await setupDevelopMode(app);
   }
 
+  registerRequestId(app);
   registerHeathcheck(app);
   registerAppRoutes(app);
   registerErrorHandlers(app);
