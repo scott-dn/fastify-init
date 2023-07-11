@@ -2,7 +2,7 @@ import fastify from 'fastify';
 import hyperid from 'hyperid';
 
 import { config } from './commons/config';
-import { REQUEST_ID } from './contants/error-code';
+import { REQUEST_ID } from './contants/headers';
 import { registerAppRoutes } from './routes';
 import { setupDevelopMode } from './utils/dev-mode';
 import { registerErrorHandlers } from './utils/error-handler';
