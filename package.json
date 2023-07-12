@@ -17,7 +17,10 @@
     "lint": "eslint . --fix",
     "test": "jest",
     "build": "tsc -p tsconfig.build.json",
-    "postinstall": "[ -n '${IGNORE_HUSKY}' ] || husky install"
+    "postinstall": "[ -n '${IGNORE_HUSKY}' ] || husky install",
+    "db:migrate": "prisma migrate dev",
+    "db:reset": "prisma migrate reset",
+    "schema:format": "prisma format"
   },
   "devDependencies": {
     "@fastify/swagger": "^8.8.0",
