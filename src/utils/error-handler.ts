@@ -11,8 +11,8 @@ const DefaultSchema = ResponseSchema();
 
 export const registerErrorHandlers = (app: FastifyInstance) => {
   app.setErrorHandler((e, req, reply: Res<typeof DefaultSchema>) => {
-    if (e.statusCode === 400 || e.validation) {
-      return reply.status(400).send(e);
+    if (Number(e.statusCode) >= 400 || Number(e.statusCode) < 500) {
+      return reply.status(Number(e.statusCode)).send(e);
     }
 
     app.log.error(
