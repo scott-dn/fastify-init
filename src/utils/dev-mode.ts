@@ -1,5 +1,3 @@
-import swaggerPlugin from '@fastify/swagger';
-import swaggerUiPlugin from '@fastify/swagger-ui';
 import { FastifyInstance } from 'fastify';
 
 export const setupDevelopMode = async (app: FastifyInstance) => {
@@ -15,7 +13,7 @@ export const setupDevelopMode = async (app: FastifyInstance) => {
 };
 
 const registerSwagger = async (app: FastifyInstance) => {
-  await app.register(swaggerPlugin, {
+  await app.register(import('@fastify/swagger'), {
     openapi: {
       info: {
         title: 'Test swagger',
@@ -23,13 +21,13 @@ const registerSwagger = async (app: FastifyInstance) => {
       },
       servers: [
         {
-          url: 'http://localhost:5000'
+          url: 'http://0.0.0.0:5000'
         }
       ]
     }
   });
 
-  await app.register(swaggerUiPlugin, {
+  await app.register(import('@fastify/swagger-ui'), {
     routePrefix: '/docs'
   });
 };

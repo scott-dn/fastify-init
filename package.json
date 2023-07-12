@@ -17,16 +17,15 @@
     "lint": "eslint . --fix",
     "test": "jest",
     "build": "tsc -p tsconfig.build.json",
-    "postinstall": "husky install"
+    "postinstall": "[ -n '${IGNORE_HUSKY}' ] || husky install"
   },
   "devDependencies": {
     "@fastify/swagger": "^8.8.0",
     "@fastify/swagger-ui": "^1.9.2",
-    "@fastify/type-provider-typebox": "^3.2.0",
+    "@fastify/type-provider-typebox": "^3.3.0",
     "@types/jest": "^29.5.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
-    "env-schema": "^5.2.0",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",
@@ -45,6 +44,7 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.29.4",
+    "env-schema": "^5.2.0",
     "fastify": "^4.19.2",
     "hyperid": "^3.1.1"
   }

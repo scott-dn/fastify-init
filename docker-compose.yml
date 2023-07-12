@@ -1,0 +1,10 @@
+version: '3.5'
+
+services:
+  fastify:
+    build: .
+    container_name: fastify
+    image: fastify
+    working_dir: /app
+    ports:
+      - 5000:5000

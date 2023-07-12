@@ -40,7 +40,7 @@ const bootstrap = async () => {
   registerAppRoutes(app);
   registerErrorHandlers(app);
 
-  app.listen({ port: config.PORT }, e => {
+  app.listen({ host: '0.0.0.0', port: config.PORT }, e => {
     if (e) throw e;
     app.log.debug(config, 'Starting server with config');
   });
