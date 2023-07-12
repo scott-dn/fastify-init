@@ -11,7 +11,6 @@ import { getLogger } from './utils/logger';
 import { registerRequestId } from './utils/request-id';
 import { handleShutdownGracefully } from './utils/shutsown-gracefully';
 
-// TODO: prod build
 // TODO: ORM
 // TODO: migration
 // TODO: authentication
@@ -29,6 +28,7 @@ const bootstrap = async () => {
     requestIdLogLabel: REQUEST_ID,
     genReqId: () => hyperid().uuid
   };
+
   const app = fastify(opts);
 
   if (config.NODE_ENV === 'development') {
@@ -40,7 +40,7 @@ const bootstrap = async () => {
   registerAppRoutes(app);
   registerErrorHandlers(app);
 
-  app.listen({ host: '0.0.0.0', port: config.PORT }, e => {
+  app.listen({ host: config.HOST, port: config.PORT }, e => {
     if (e) throw e;
     app.log.debug(config, 'Starting server with config');
   });

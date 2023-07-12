@@ -8,6 +8,7 @@ const ConfigSchema = Type.Object({
       default: 'development'
     }
   ),
+  HOST: Type.String({ default: '0.0.0.0' }),
   PORT: Type.Number({ default: 5000 })
 });
 
