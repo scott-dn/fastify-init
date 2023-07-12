@@ -1,10 +1,38 @@
 version: '3.5'
 
 services:
-  fastify:
-    build: .
-    container_name: fastify
-    image: fastify
-    working_dir: /app
+  # fastify:
+  # depends_on:
+  # - db
+  # build: .
+  # container_name: fastify
+  # image: fastify
+  # working_dir: /app
+  # ports:
+  # - 5000:5000
+
+  db:
+    container_name: db
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: fastify
+      POSTGRES_USER: fastify
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - ./data/db:/data/postgres
     ports:
-      - 5000:5000
+      - 5432:5432
+
+  pgadmin:
+    depends_on:
+      - db
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: fastify@abc.com
+      PGADMIN_DEFAULT_PASSWORD: fastify
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    ports:
+      - 5050:80

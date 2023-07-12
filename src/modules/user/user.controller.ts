@@ -1,22 +1,27 @@
 import { FastifyInstance } from 'fastify';
 
-import { Req, Res } from 'src/commons/fastify';
+import { Req } from 'src/commons/fastify';
+import { db } from 'src/storage/db';
 
-import { UserModel, UserSchema } from './user.model';
+import { CreateUserSchema, GetAllUsersSchema } from './user.model';
 
 export const registerUserController = (app: FastifyInstance) => {
-  app.put(
-    '/users/:id',
-    {
-      schema: UserSchema
-    },
-    (
-      { log, body: { name, mail }, params }: Req<UserModel>,
-      reply: Res<UserModel>
-    ) => {
-      log.debug({ params: params.id }, 'Got id name');
-      log.debug({ name, mail }, 'Got body');
-      return reply.send({ data: { name, mail: mail ?? '' } });
+  app.get('/users', { schema: GetAllUsersSchema }, async () => ({
+    data: await db.user.findMany()
+  }));
+
+  app.post(
+    '/user',
+    { schema: CreateUserSchema },
+    async (req: Req<typeof CreateUserSchema>) => {
+      const user = await db.user.create({
+        data: {
+          name: req.body.name ?? '',
+          email: req.body.email
+        }
+      });
+      app.log.info(user, 'Created user');
+      return { data: user };
     }
   );
 };

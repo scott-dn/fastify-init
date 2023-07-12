@@ -11,7 +11,6 @@ import { getLogger } from './utils/logger';
 import { registerRequestId } from './utils/request-id';
 import { handleShutdownGracefully } from './utils/shutsown-gracefully';
 
-// TODO: ORM
 // TODO: migration
 // TODO: authentication
 
