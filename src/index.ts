@@ -1,4 +1,4 @@
-import fastify from 'fastify';
+import fastify, { FastifyHttpOptions, RawServerDefault } from 'fastify';
 import hyperid from 'hyperid';
 
 import { config } from './commons/config';
@@ -17,15 +17,18 @@ import { handleShutdownGracefully } from './utils/shutsown-gracefully';
 // TODO: authentication
 
 const bootstrap = async () => {
-  const opts = {
+  const opts: FastifyHttpOptions<RawServerDefault> = {
     logger: getLogger(config),
     ignoreTrailingSlash: true,
-    requestTimeout: 1000 * 30, // 30s
+    // How long to wait to make an initial connection
+    connectionTimeout: 1000, // 1s
+    // It is not a timeout on how much it takes for a request to be processed by fastify,
+    // but how much it takes for the underlying HTTP server to receive the request from the body
+    requestTimeout: 1000, // 1s
     requestIdHeader: REQUEST_ID,
     requestIdLogLabel: REQUEST_ID,
     genReqId: () => hyperid().uuid
   };
-
   const app = fastify(opts);
 
   if (config.NODE_ENV === 'development') {
@@ -37,10 +40,9 @@ const bootstrap = async () => {
   registerAppRoutes(app);
   registerErrorHandlers(app);
 
-  app.log.info(config, 'Starting server with config');
-
   app.listen({ port: config.PORT }, e => {
     if (e) throw e;
+    app.log.debug(config, 'Starting server with config');
   });
 
   return app;

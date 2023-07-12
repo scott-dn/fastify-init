@@ -20,7 +20,7 @@ export const getLogger = (config: Config): boolean | PinoLoggerOptions =>
         serializers: {
           res: (reply: FastifyReply) => ({
             statusCode: reply.statusCode,
-            // extra info will be logged in the `production` due to performance cost
+            // extra info will not be logged in the `production` due to performance cost
             headers:
               typeof reply.getHeaders === 'function' ? reply.getHeaders() : {}
           }),
@@ -30,7 +30,7 @@ export const getLogger = (config: Config): boolean | PinoLoggerOptions =>
             hostname: req.hostname,
             remoteAddress: req.ip,
             remotePort: req.socket.remotePort,
-            // extra info will be logged in the `production` due to performance cost
+            // extra info will not be logged in the `production` due to performance cost
             path: req.routerPath,
             parameters: req.params,
             headers: req.headers,
