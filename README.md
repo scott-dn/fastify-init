@@ -102,7 +102,7 @@ ECS task definition, etc.).
 | `pnpm format:check`      | Prettier check                                                                 |
 | `pnpm db:migrate:create` | `pgroll create` — scaffold a new migration pair                                |
 | `pnpm db:migrate:up`     | Apply pending migrations, then regenerate Drizzle types                        |
-| `pnpm db:migrate:down`   | Roll back the most recent migration, then regenerate                           |
+| `pnpm db:migrate:down`   | Roll back to the version 0                                                     |
 | `pnpm db:orm:gen`        | Run `drizzle-kit pull` → auto-patch output via `scripts/fix-drizzle-output.ts` |
 
 ---
