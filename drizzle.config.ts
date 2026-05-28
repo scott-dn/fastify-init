@@ -3,7 +3,7 @@
  */
 import { defineConfig } from 'drizzle-kit';
 
-import { config } from './commons/config.js';
+import { config } from '#/commons/config.js';
 
 // eslint-disable-next-line no-restricted-syntax
 export default defineConfig({
