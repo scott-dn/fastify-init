@@ -1,3 +1,4 @@
+import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import fastify, {
   type FastifyHttpOptions,
   type FastifyServerOptions,
@@ -7,14 +8,17 @@ import hyperid from 'hyperid';
 
 import { config } from '#/commons/config.js';
 import { initLogger } from '#/commons/logger.js';
-import { REQUEST_ID } from '#/contants/headers.js';
+import { REQUEST_ID } from '#/constants/headers.js';
 import { registerAppRoutes } from '#/modules/routes.js';
 import { initDb } from '#/storage/db.js';
-import { migrate } from '#/utils/db/miration.js';
+import { migrate } from '#/utils/db/migration.js';
 import { registerCors } from '#/utils/http/cors.js';
 import { setupDeveloperMode } from '#/utils/http/dev-mode.js';
 import { registerErrorHandlers } from '#/utils/http/error-handler.js';
-import { registerHeathcheck } from '#/utils/http/healthcheck.js';
+import { registerHealthcheck } from '#/utils/http/healthcheck.js';
+import { registerHelmet } from '#/utils/http/helmet.js';
+import { registerMetrics } from '#/utils/http/metrics.js';
+import { registerRateLimit } from '#/utils/http/rate-limit.js';
 import { registerRequestId } from '#/utils/http/request-id.js';
 import { handleShutdownGracefully } from '#/utils/http/shutdown-gracefully.js';
 
@@ -57,15 +61,18 @@ const bootstrap = async () => {
     genReqId: () => hyperid().uuid
   };
 
-  const app = fastify(opts);
+  const app = fastify(opts).withTypeProvider<TypeBoxTypeProvider>();
 
   if (config.NODE_ENV === 'development') {
     await setupDeveloperMode(app);
   }
 
+  registerHelmet(app);
+  registerRateLimit(app);
+  registerMetrics(app);
   registerRequestId(app);
   registerCors(app);
-  registerHeathcheck(app);
+  registerHealthcheck(app);
   registerAppRoutes(app);
   registerErrorHandlers(app);
 

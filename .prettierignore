@@ -1,6 +1,7 @@
 dist
 public
 coverage
+.husky
 pnpm-lock.yaml
 tsconfig.json
 src/storage/drizzle

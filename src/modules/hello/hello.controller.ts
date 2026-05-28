@@ -1,6 +1,6 @@
-import { type FastifyInstance } from 'fastify';
+import { type App } from '#/commons/fastify.js';
 
-export const registerHelloController = (app: FastifyInstance) => {
+export const registerHelloController = (app: App) => {
   app.get('/', request => {
     request.log.info(
       {

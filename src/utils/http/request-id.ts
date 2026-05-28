@@ -1,6 +1,6 @@
 import { type FastifyInstance } from 'fastify';
 
-import { REQUEST_ID } from '#/contants/headers.js';
+import { REQUEST_ID } from '#/constants/headers.js';
 
 export const registerRequestId = (app: FastifyInstance) => {
   app.addHook('onSend', (request, reply, _, done) => {

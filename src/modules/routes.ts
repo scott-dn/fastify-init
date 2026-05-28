@@ -1,10 +1,9 @@
-import { type FastifyInstance } from 'fastify';
-
+import { type App } from '#/commons/fastify.js';
 import { registerErrorController } from '#/modules/error/error.controller.js';
 import { registerHelloController } from '#/modules/hello/hello.controller.js';
 import { registerUserController } from '#/modules/user/user.controller.js';
 
-export const registerAppRoutes = (app: FastifyInstance) => {
+export const registerAppRoutes = (app: App) => {
   registerHelloController(app);
   registerUserController(app);
   registerErrorController(app);

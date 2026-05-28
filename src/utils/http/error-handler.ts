@@ -1,23 +1,20 @@
-import { type FastifyError, type FastifyInstance } from 'fastify';
+import { type FastifyError } from 'fastify';
 
-import { type Res } from '#/commons/fastify.js';
-import { ResponseSchema } from '#/commons/response.js';
-import { INTERNAL_SERVER_ERROR_CODE, INTERNAL_SERVER_ERROR_MSG } from '#/contants/error-code.js';
+import { type App } from '#/commons/fastify.js';
+import { INTERNAL_SERVER_ERROR_CODE, INTERNAL_SERVER_ERROR_MSG } from '#/constants/error-code.js';
 
-type DefaultSchema = ReturnType<typeof ResponseSchema>;
-
-export const registerErrorHandlers = (app: FastifyInstance) => {
-  app.setNotFoundHandler((_request, reply: Res<DefaultSchema>) => {
+export const registerErrorHandlers = (app: App) => {
+  app.setNotFoundHandler((_request, reply) => {
     reply.code(404).send({ message: 'Not Found' });
   });
 
-  app.setErrorHandler((e: FastifyError, request, reply: Res<DefaultSchema>) => {
+  app.setErrorHandler((e: FastifyError, request, reply) => {
     if (e.code === 'FST_ERR_HANDLER_TIMEOUT') {
       app.log.warn({ req_id: request.id }, 'Request Timeout');
       return reply.status(503).send({ message: 'Request Timeout' });
     }
 
-    // fasify built-in handled error
+    // fastify built-in handled error
     if (Number(e.statusCode) >= 400 && Number(e.statusCode) < 500) {
       return reply.status(Number(e.statusCode)).send({ message: e.message, code: e.code });
     }

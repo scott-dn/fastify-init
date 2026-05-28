@@ -3,7 +3,9 @@ FROM node:24.16.0-bookworm-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME/bin:$PATH"
 RUN corepack enable
+ENV CI=true
 WORKDIR /app
+COPY .husky/install.ts ./.husky/install.ts
 # ─────────────────────────────────────────────────────────────────────────
 
 

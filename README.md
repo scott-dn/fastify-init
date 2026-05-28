@@ -31,7 +31,7 @@ Includes Postgres via Drizzle, Vitest, Swagger, graceful shutdown, and a multi-s
   ```
   Corepack will pick up the version pinned in `package.json#packageManager` automatically.
 - **Docker** (with Compose v2) — only needed for the local Postgres + pgAdmin services and for image builds.
-- **pgroll** CLI — used by `pnpm db:migrate:*` scripts. Install per their [docs](https://github.com/xataio/pgroll#installation).
+- **pgroll** CLI — used by `pnpm db:migrate:*` scripts. Install per their [docs](https://github.com/tnht95/pgroll).
 
 ---
 
@@ -111,37 +111,30 @@ ECS task definition, etc.).
 
 ```
 src/
-├── index.ts                        # bootstrap: config → fastify → routes → db → listen
+├── index.ts                        # bootstrap: config → fastify → plugins → routes → db → listen
 ├── commons/
 │   ├── config.ts                   # TypeBox env schema + parsed `config` singleton
-│   ├── fastify.ts                  # generic `Req` / `Res` types
+│   ├── fastify.ts                  # `App` type (FastifyInstance with TypeBox provider)
 │   ├── logger.ts                   # pino factory (pretty in dev, json in prod)
 │   └── response.ts                 # `ResponseSchema(data?)` envelope
-├── contants/
-│   ├── error-code.ts
-│   └── headers.ts
+├── constants/
 ├── modules/
-│   ├── routes.ts                   # composes module controllers
-│   ├── hello/hello.controller.ts
-│   ├── user/{user.controller,user.model}.ts
-│   └── error/error.controller.ts
 ├── storage/
 │   ├── db.ts                       # drizzle init + `FastifyInstance.db` augmentation
-│   └── drizzle/                    # GENERATED — do not hand-edit (see "ORM workflow")
-│       ├── schema.ts
-│       ├── relations.ts
-│       └── <timestamp>_<name>/{migration.sql, snapshot.json}
+│   └── drizzle/                    # GENERATED — do not hand-edit (see "Database workflow")
 └── utils/
-    ├── db/miration.ts              # runs pgroll Migrator on boot
+    ├── db/migration.ts             # runs pgroll Migrator on boot
     └── http/
         ├── cors.ts                 # @fastify/cors registration
         ├── dev-mode.ts             # swagger + body logging (dev only)
         ├── error-handler.ts        # 404 + global error handler
         ├── healthcheck.ts          # GET /health (returns 503 once shutting down)
+        ├── helmet.ts               # @fastify/helmet security headers
+        ├── metrics.ts              # fastify-metrics → Prometheus `/metrics`
+        ├── rate-limit.ts           # @fastify/rate-limit (200 req/min default)
         ├── request-id.ts           # echo request id back as response header
         └── shutdown-gracefully.ts  # SIGINT/SIGTERM → app.close() → db.$client.end() → exit
 __tests__/
-└── index.ts
 migrations/                          # pgroll up/down SQL pairs (one *_up.sql + *_down.sql per version)
 scripts/
 └── fix-drizzle-output.ts            # patches drizzle-kit pull output for our build

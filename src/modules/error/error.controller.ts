@@ -1,6 +1,6 @@
-import { type FastifyInstance } from 'fastify';
+import { type App } from '#/commons/fastify.js';
 
-export const registerErrorController = (app: FastifyInstance) => {
+export const registerErrorController = (app: App) => {
   app.get('/error', (request, reply) => {
     request.log.error(
       {

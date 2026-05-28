@@ -9,7 +9,7 @@ import globals from 'globals';
 import pluginTs from 'typescript-eslint';
 
 export default [
-  { ignores: ['dist', 'coverage', 'src/storage/drizzle'] },
+  { ignores: ['dist', 'coverage', '.husky', 'src/storage/drizzle'] },
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   {
     languageOptions: {

@@ -1,29 +1,19 @@
 import { type TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
-import {
-  type ContextConfigDefault,
-  type FastifyReply,
-  type FastifyRequest,
-  type FastifySchema,
-  type RawReplyDefaultExpression,
-  type RawRequestDefaultExpression,
-  type RawServerDefault,
-  type RouteGenericInterface
+import type {
+  FastifyBaseLogger,
+  FastifyInstance,
+  RawReplyDefaultExpression,
+  RawRequestDefaultExpression,
+  RawServerDefault
 } from 'fastify';
 
-export type Req<TSchema extends FastifySchema> = FastifyRequest<
-  RouteGenericInterface,
-  RawServerDefault,
-  RawRequestDefaultExpression,
-  TSchema,
-  TypeBoxTypeProvider
->;
-
-export type Res<TSchema extends FastifySchema> = FastifyReply<
-  RouteGenericInterface,
+// Typed Fastify instance with the TypeBox type provider attached.
+// Use this as the parameter type for controllers/plugins so route schemas
+// auto-infer Body / Params / Querystring / Reply via `withTypeProvider()`.
+export type App = FastifyInstance<
   RawServerDefault,
   RawRequestDefaultExpression,
   RawReplyDefaultExpression,
-  ContextConfigDefault,
-  TSchema,
+  FastifyBaseLogger,
   TypeBoxTypeProvider
 >;
