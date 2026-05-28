@@ -1,0 +1,8 @@
+packages:
+  - .
+allowBuilds:
+  esbuild: true
+  pgroll: false
+  unrs-resolver: false
+minimumReleaseAgeExclude:
+  - pgroll@0.0.9

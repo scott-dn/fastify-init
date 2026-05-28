@@ -1,0 +1,44 @@
+services:
+  fastify:
+    depends_on:
+      db:
+        condition: service_healthy
+    container_name: fastify
+    build:
+      context: .
+      dockerfile: fastify.dockerfile
+    network_mode: host
+    # LOCAL DEVELOPMENT ONLY
+    env_file:
+      - .env
+
+  db:
+    container_name: db
+    image: postgres:18.4-bookworm
+    environment:
+      POSTGRES_DB: fastify
+      POSTGRES_USER: fastify
+      POSTGRES_PASSWORD: fastify
+      PGDATA: /data/postgres
+    healthcheck:
+      test: pg_isready -U fastify -d fastify
+      interval: 5s
+      timeout: 10s
+      retries: 20
+    volumes:
+      - ./data/db:/data/postgres
+    network_mode: host
+
+  pgadmin:
+    depends_on:
+      db:
+        condition: service_healthy
+    container_name: pgadmin
+    image: dpage/pgadmin4:9.15.0
+    environment:
+      PGADMIN_DEFAULT_EMAIL: fastify@example.com
+      PGADMIN_DEFAULT_PASSWORD: fastify@example.com
+      PGADMIN_LISTEN_PORT: 5050
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    network_mode: host

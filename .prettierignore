@@ -1,6 +1,6 @@
-prisma
-.pnp.*
-.yarn
 dist
+public
 coverage
+pnpm-lock.yaml
 tsconfig.json
+src/storage/drizzle

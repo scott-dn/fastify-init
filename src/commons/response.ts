@@ -1,4 +1,4 @@
-import { TArray, TObject, Type } from '@sinclair/typebox';
+import { type TArray, type TObject, Type } from '@sinclair/typebox';
 
 export const ResponseSchema = (data?: TObject | TArray) => ({
   response: {

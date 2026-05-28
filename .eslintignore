@@ -1,5 +1,0 @@
-prisma
-.pnp.*
-.yarn
-dist
-coverage

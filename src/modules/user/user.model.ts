@@ -1,6 +1,6 @@
 import { Type } from '@sinclair/typebox';
 
-import { ResponseSchema } from 'src/commons/response';
+import { ResponseSchema } from '#/commons/response.js';
 
 const USER_TAGS = ['users'];
 

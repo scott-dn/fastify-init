@@ -1,6 +1,6 @@
 import fastify from 'fastify';
 
-import { registerAppRoutes } from 'src/routes';
+import { registerAppRoutes } from '#/modules/routes.js';
 
 describe('Test hello controller', () => {
   const app = fastify();

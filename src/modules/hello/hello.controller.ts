@@ -1,8 +1,8 @@
-import { FastifyInstance } from 'fastify';
+import { type FastifyInstance } from 'fastify';
 
 export const registerHelloController = (app: FastifyInstance) => {
-  app.get('/', req => {
-    req.log.info(
+  app.get('/', request => {
+    request.log.info(
       {
         hello: 'world',
         nested: { abc: 123, time: Date.now() }

@@ -1,28 +1,57 @@
-import fastify, { FastifyHttpOptions, RawServerDefault } from 'fastify';
+import fastify, {
+  type FastifyHttpOptions,
+  type FastifyServerOptions,
+  type RawServerDefault
+} from 'fastify';
 import hyperid from 'hyperid';
 
-import { config } from './commons/config';
-import { REQUEST_ID } from './contants/headers';
-import { registerAppRoutes } from './routes';
-import { setupDevelopMode } from './utils/dev-mode';
-import { registerErrorHandlers } from './utils/error-handler';
-import { registerHeathcheck } from './utils/healthcheck';
-import { getLogger } from './utils/logger';
-import { registerRequestId } from './utils/request-id';
-import { handleShutdownGracefully } from './utils/shutsown-gracefully';
-
-// TODO: migration
-// TODO: authentication
+import { config } from '#/commons/config.js';
+import { initLogger } from '#/commons/logger.js';
+import { REQUEST_ID } from '#/contants/headers.js';
+import { registerAppRoutes } from '#/modules/routes.js';
+import { initDb } from '#/storage/db.js';
+import { migrate } from '#/utils/db/miration.js';
+import { registerCors } from '#/utils/http/cors.js';
+import { setupDeveloperMode } from '#/utils/http/dev-mode.js';
+import { registerErrorHandlers } from '#/utils/http/error-handler.js';
+import { registerHeathcheck } from '#/utils/http/healthcheck.js';
+import { registerRequestId } from '#/utils/http/request-id.js';
+import { handleShutdownGracefully } from '#/utils/http/shutdown-gracefully.js';
 
 const bootstrap = async () => {
+  const devLoggerOpts: NonNullable<FastifyServerOptions['logger']> = {
+    level: 'debug',
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname'
+      }
+    },
+    serializers: {
+      res: reply => ({
+        statusCode: reply.statusCode,
+        headers: typeof reply.getHeaders === 'function' ? reply.getHeaders() : {}
+      }),
+      req: request => ({
+        method: request.method,
+        hostname: request.hostname,
+        remoteAddress: request.ip,
+        port: request.port,
+        path: request.url,
+        parameters: request.params,
+        headers: request.headers,
+        body: request.body
+      })
+    }
+  };
+
   const opts: FastifyHttpOptions<RawServerDefault> = {
-    logger: getLogger(config),
-    ignoreTrailingSlash: true,
-    // How long to wait to make an initial connection
-    connectionTimeout: 1000, // 1s
-    // It is not a timeout on how much it takes for a request to be processed by fastify,
-    // but how much it takes for the underlying HTTP server to receive the request from the body
-    requestTimeout: 1000, // 1s
+    loggerInstance: initLogger(config, devLoggerOpts),
+    routerOptions: {
+      ignoreTrailingSlash: true
+    },
+    handlerTimeout: 5000, // 5s, Noted that it's GET only
     requestIdHeader: REQUEST_ID,
     requestIdLogLabel: REQUEST_ID,
     genReqId: () => hyperid().uuid
@@ -31,13 +60,18 @@ const bootstrap = async () => {
   const app = fastify(opts);
 
   if (config.NODE_ENV === 'development') {
-    await setupDevelopMode(app);
+    await setupDeveloperMode(app);
   }
 
   registerRequestId(app);
+  registerCors(app);
   registerHeathcheck(app);
   registerAppRoutes(app);
   registerErrorHandlers(app);
+
+  const db = initDb(config);
+  await migrate(db.$client);
+  app.decorate('db', db);
 
   app.listen({ host: config.HOST, port: config.PORT }, e => {
     if (e) throw e;
@@ -47,8 +81,8 @@ const bootstrap = async () => {
   return app;
 };
 
-bootstrap()
+await bootstrap()
   .then(handleShutdownGracefully)
-  .catch(error => {
+  .catch((error: unknown) => {
     throw error;
   });
