@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/github/scott-dn/fastify-init/graph/badge.svg?token=EKGJB4R6EN)](https://codecov.io/github/scott-dn/fastify-init)
+
 # fastify-init
 
 A production-leaning Fastify 5 starter on **Node 24 + ESM + TypeScript (strict)**.
