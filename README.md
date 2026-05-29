@@ -34,6 +34,8 @@ Includes Postgres via Drizzle, Vitest, Swagger, graceful shutdown, and a multi-s
   Corepack will pick up the version pinned in `package.json#packageManager` automatically.
 - **Docker** (with Compose v2) — only needed for the local Postgres + pgAdmin services and for image builds.
 - **pgroll** CLI — used by `pnpm db:migrate:*` scripts. Install per their [docs](https://github.com/tnht95/pgroll).
+- **Docker Desktop** should have host networking **enable**
+- **pg_format** installed
 
 ---
 

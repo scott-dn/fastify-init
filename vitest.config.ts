@@ -13,7 +13,7 @@ export default defineConfig({
       reporter: ['clover', 'json', 'lcov', 'text'],
       include: ['src/**/*.ts'],
       exclude: [
-        'src/*.ts', // ignore boostrap programs
+        'src/*.ts', // ignore bootstrap programs
         'src/**/*.test.ts'
       ],
       thresholds: {

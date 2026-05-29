@@ -80,10 +80,8 @@ const bootstrap = async () => {
   await migrate(db.$client);
   app.decorate('db', db);
 
-  app.listen({ host: config.HOST, port: config.PORT }, e => {
-    if (e) throw e;
-    app.log.debug(config, 'Starting server with config');
-  });
+  await app.listen({ host: config.HOST, port: config.PORT });
+  app.log.debug(config, 'Starting server with config');
 
   return app;
 };

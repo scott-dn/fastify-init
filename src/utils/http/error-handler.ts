@@ -25,7 +25,6 @@ export const registerErrorHandlers = (app: App) => {
           req_id: request.id,
           path: request.url,
           headers: request.headers,
-          // body: req.body,
           parameters: request.params,
           query: request.query,
           originalUrl: request.originalUrl,
